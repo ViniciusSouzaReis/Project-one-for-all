@@ -85,9 +85,9 @@ VALUES
   
 INSERT INTO cancoes (nome, album_id, artista_id, duracao_segundos)
 VALUES
-  ('Break my soul', 1, 1, 279),
-  ('Virgo’s groove', 1, 1, 369),
-  ('Alien superstar', 1, 1, 116),
+  ('BREAK MY SOUL', 1, 1, 279),
+  ('VIRGO’S GROOVE', 1, 1, 369),
+  ('ALIEN SUPERSTAR', 1, 1, 116),
   ('Don’t Stop Me Now', 2, 2, 203),
   ('Under Pressure', 3, 2, 152),
   ('Como Nossos Pais', 4, 3, 105),
