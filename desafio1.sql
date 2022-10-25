@@ -1,26 +1,56 @@
-DROP DATABASE IF EXISTS SpotifyClone;
+DROP SCHEMA IF EXISTS SpotifyClone;
+CREATE SCHEMA SpotifyClone;
+USE SpotifyClone;
+CREATE TABLE planos(
+	plano_id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(25) NOT NULL,
+    valor DECIMAL(3,2)
+);
 
-  CREATE DATABASE IF NOT EXISTS SpotifyClone;
+CREATE TABLE artistas(
+	artista_id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(25) NOT NULL
+);
 
-  CREATE TABLE SpotifyClone.tabela1(
-      coluna1 tipo restricoes,
-      coluna2 tipo restricoes,
-      colunaN tipo restricoes,
-  ) engine = InnoDB;
+CREATE TABLE albuns(
+	album_id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    ano_lancamento INT NOT NULL,
+    artista_id INT NOT NULL,
+    FOREIGN KEY(artista_id) REFERENCES artistas (artista_id)
+);
 
-  CREATE TABLE SpotifyClone.tabela2(
-      coluna1 tipo restricoes,
-      coluna2 tipo restricoes,
-      colunaN tipo restricoes,
-  ) engine = InnoDB;
+CREATE TABLE cancoes(
+	cancao_id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+	album_id INT NOT NULL,
+    artista_id INT NOT NULL,
+    duracao_segundos INT NOT NULL,
+    FOREIGN KEY(album_id) REFERENCES albuns (album_id),
+    FOREIGN KEY(artista_id) REFERENCES artistas (artista_id)
+);
 
-  INSERT INTO SpotifyClone.tabela1 (coluna1, coluna2)
-  VALUES
-    ('exemplo de dados 1', 'exemplo de dados A'),
-    ('exemplo de dados 2', 'exemplo de dados B'),
-    ('exemplo de dados 3', 'exemplo de dados C');
+CREATE TABLE usuarios(
+	usuario_id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    idade INT NOT NULL,
+    plano_id INT NOT NULL,
+    FOREIGN KEY(plano_id) REFERENCES planos (plano_id)
+);
 
-  INSERT INTO SpotifyClone.tabela2 (coluna1, coluna2)
-  VALUES
-    ('exemplo de dados 1', 'exemplo de dados X'),
-    ('exemplo de dados 2', 'exemplo de dados Y');
+CREATE TABLE historico_de_reproducoes(
+    usuario_id INT NOT NULL,
+    cancao_id INT NOT NULL,
+    data_reproducao VARCHAR(100) NOT NULL,
+    CONSTRAINT PRIMARY KEY(usuario_id, cancao_id),
+    FOREIGN KEY(usuario_id) REFERENCES usuarios (usuario_id),
+    FOREIGN KEY(cancao_id) REFERENCES cancoes (cancao_id)
+);
+
+CREATE TABLE seguindo_artistas(
+	usuario_id INT NOT NULL,
+    artista_id INT NOT NULL,
+    CONSTRAINT PRIMARY KEY(usuario_id, artista_id),
+    FOREIGN KEY(usuario_id) REFERENCES usuarios (usuario_id),
+    FOREIGN KEY(artista_id) REFERENCES artistas (artista_id)
+);
